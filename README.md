@@ -20,7 +20,7 @@ If you use the item, it will clean your weapon if compatible.
 
 To inspect your weapon you have to select it and when in the weapon wheel clic MMB like the original RDR2 function.
 
-[![Vorp compatible RedM Outfit script showcase](http://img.youtube.com/vi/a3QxnQ1UmgA/0.jpg)](http://www.youtube.com/watch?v=a3QxnQ1UmgA "Vorp compatible RedM Outfit script showcase") - Showcase
+[![vorp_cleangun showcase](http://img.youtube.com/vi/3pIg5yX4bLc/0.jpg)](http://www.youtube.com/watch?v=3pIg5yX4bLc "vorp_cleangun showcase") - Showcase
 
 # KNOWN PROBLEMS : 
 
