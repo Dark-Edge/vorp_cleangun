@@ -33,3 +33,7 @@ To inspect your weapon you have to select it and when in the weapon wheel clic M
   - adapt the script to select hovered weapon in the wheel
 
 Feel free to use this script as you want 'cause it’s opensource :wink:
+
+# Special Thanks : 
+
+[Le Bookmaker]([https://github.com/femga/rdr3_discoveries](https://github.com/LeBookmaker)) [Alphatule]([https://github.com/femga/rdr3_discoveries](https://github.com/alphatule)) (Initial bookat_cleangun release)
