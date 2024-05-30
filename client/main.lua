@@ -4,12 +4,15 @@
 --====        and Alphatule Script		====--
 --====         	 By Darky_13         	====--
 --==========================================--
+IsInCameraMode = nil
 
 local key = 0xF09866F3
 
 -- for cleaning your gun with animation ENJOY
 RegisterNetEvent('cleaning:startcleaningshort')
 AddEventHandler('cleaning:startcleaningshort', function()
+	DestroyAllCams(true)
+	local cam = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", GetEntityCoords(PlayerPedId()), 0.0, 0.0, 0.0, 25.0, true, 2)
     local ped = PlayerPedId()
     local Cloth = CreateObject(GetHashKey('s_balledragcloth01x'), GetEntityCoords(PlayerPedId()), false, true, false, false, true)
     local PropId = GetHashKey("CLOTH")
@@ -26,10 +29,15 @@ AddEventHandler('cleaning:startcleaningshort', function()
     if WeaponType == "MELEE" then WeaponType = "SHORTARM" end
 	if WeaponType == "BOW" then WeaponType = "SHORTARM" end
 	TriggerEvent("vorp_inventory:CloseInv");
-    TaskItemInteraction_2(PlayerPedId(), wepHash, Cloth, PropId, GetHashKey(WeaponType.."_CLEAN_ENTER"), 1, 1, -1.0)
-	Wait(15000)
+    TaskItemInteraction_2(PlayerPedId(), wepHash, Cloth, PropId, GetHashKey(WeaponType.."_CLEAN_ENTER"), 1, 1, -1.0)  -- Enter cleaning mode
+	Wait(1000) -- waiting a little bit before switch to custom camera to render a smooth camera view
+	AttachCamToEntity(cam,PlayerPedId(), 0.65, 0.0, 1.15, true) -- attach the camera to the current selected weapon
+	PointCamAtEntity(cam, object, 0.0, 0.0, 0.0, true) -- the camera is targetting the current selected weapon
+	RenderScriptCams(true, true, 1500, true, true) -- render the camera config setted before and initiates the movement
+	Wait(1500) -- waiting a little bit to avoid drop camera before cleaning is done
+	IsInCameraMode = 1 -- variables to test if player is in "inspect mode"
 	SetWeaponDegradation(object,0.0,0)
-    SetWeaponDirt(object,0.0,0)
+    SetWeaponDirt(object,0.0,0)	
 end)
 
 
@@ -47,22 +55,55 @@ RegisterCommand('inspect', function(source, args, raw)
 end)
 
 RegisterCommand('cleanweap', function(source, args, raw)
+	DestroyAllCams(true)
+	local cam = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", GetEntityCoords(PlayerPedId()), 0.0, 0.0, 0.0, 25.0, true, 2)
 	local PropId = GetHashKey("CLOTH")
     local ped = PlayerPedId()
 	local Cloth = CreateObject(GetHashKey('s_balledragcloth01x'), GetEntityCoords(PlayerPedId()), false, true, false, false, true)
     local wep = GetCurrentPedWeaponEntityIndex(ped, 0)
     local _, wepHash = GetCurrentPedWeapon(ped, true, 0, true)
     local WeaponType = GetWeaponType(wepHash)
+	local object = GetObjectIndexFromEntityIndex(GetCurrentPedWeaponEntityIndex(PlayerPedId(),0))
     if wepHash == `WEAPON_UNARMED` then return end
     if WeaponType == "SHOTGUN" then WeaponType = "LONGARM" end
     if WeaponType == "MELEE" then WeaponType = "SHORTARM" end
 	if WeaponType == "BOW" then WeaponType = "SHORTARM" end
 	TriggerEvent("vorp_inventory:CloseInv");
-    TaskItemInteraction_2(PlayerPedId(), wepHash, Cloth, PropId, GetHashKey(WeaponType.."_CLEAN_ENTER"), 1, 1, -1.0)
-	Wait(15000)
+    TaskItemInteraction_2(PlayerPedId(), wepHash, Cloth, PropId, GetHashKey(WeaponType.."_CLEAN_ENTER"), 1, 1, -1.0) -- Enter cleaning mode
+	Wait(1000) -- waiting a little bit before switch to custom camera to render a smooth camera view
+	AttachCamToEntity(cam,PlayerPedId(), 0.65, 0.0, 1.15, true) -- attach the camera to the current selected weapon
+	PointCamAtEntity(cam, object, 0.0, 0.0, 0.0, true) -- the camera is targetting the current selected weapon
+	RenderScriptCams(true, true, 1500, true, true) -- render the camera config setted before and initiates the movement
+	Wait(1500) -- waiting a little bit to avoid drop camera before cleaning is done
+	IsInCameraMode = 1	-- variables to test if player is in "inspect mode"
 	SetWeaponDegradation(object,0.0,0)
-    SetWeaponDirt(object,0.0,0)
+    SetWeaponDirt(object,0.0,0)	
 end)
+
+--[[   -- function to start camera taken from redemrp_shops i let it there to debug 
+function StartCam()
+    DestroyAllCams(true)
+    local camera_pos = GetObjectOffsetFromCoords(spawnCoords.x , spawnCoords.y, spawnCoords.z ,0.0 ,0.8, 0.8, 0.8)
+    camera = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", camera_pos.x, camera_pos.y, camera_pos.z, -35.00, 00.00, 135.00, 60.00, true, 0)
+    SetCamActive(camera,true)
+    RenderScriptCams(true, true, 1000, true, true)
+    DisplayHud(false)
+    DisplayRadar(false)
+    if canChange == true then
+        canChange = false
+        PreView (items_list[1].obj)
+        canChange = true
+    end
+end --]]
+
+function EndCam() -- function to drop all cameras setup, taken from redemrp_shops
+    RenderScriptCams(false, true, 1000, true, false)
+    DestroyCam(camera, false)
+    camera = nil
+    DisplayHud(true)
+    DisplayRadar(true)
+    DestroyAllCams(true)
+end
 
 function whenKeyJustPressed(key)
     if IsControlJustPressed(0, key) then
@@ -72,6 +113,21 @@ function whenKeyJustPressed(key)
     end
 end
 
+function whenKeyJustReleased() -- function to test if E or SPACEBAR keys are released 
+    if IsControlJustReleased(0, 0xCEFD9220) or IsControlJustReleased(0, 0xD9D0E1C0) then -- 0xCEFD9220 => E || 0xD9D0E1C0 => SpaceBar
+        return true
+    else
+        return false
+    end
+end
+
+function whenKeyJustReleased2() -- function to test if F key is released
+    if IsControlJustReleased(0, 0xB2F377E8) then -- 0xB2F377E8 => F
+        return true
+    else
+        return false
+    end
+end
 
 Citizen.CreateThread(function()
 	while true do
@@ -89,6 +145,20 @@ Citizen.CreateThread(function()
 			ShowWeaponStats()
 			TaskItemInteraction_2(PlayerPedId(), wepHash, wep, 0, GetHashKey(WeaponType.."_HOLD_ENTER"), 0, 0, -1.0)
 		end
+		-- Test that evaluate if the player is always in "inspect" mode and if it needs to drop camera
+		if IsInCameraMode == 1 and whenKeyJustReleased() == true then
+			IsInCameraMode = IsInCameraMode + 1
+			--print("Cameramode = ",IsInCameraMode) -- debug 
+		elseif IsInCameraMode == 2 and whenKeyJustReleased2() then
+			IsInCameraMode = IsInCameraMode - 1
+			--print("Cameramode = ",IsInCameraMode) -- debug 
+		elseif IsInCameraMode == 1 and whenKeyJustReleased2() then
+			IsInCameraMode = nil
+			EndCam()
+			--print("Cameramode = ",IsInCameraMode) -- debug 
+		end	
+
+
 	end
 end)
 
@@ -126,7 +196,7 @@ function GetWeaponType(hash)
 		return "SHOTGUN"
 	elseif  Citizen.InvokeNative(0xDDC64F5E31EEDAB6, hash) or Citizen.InvokeNative(0xC212F1D05A8232BB, hash) then
 		return "SHORTARM"
-	else print ('Erreur : Ce n\'est pas un objet/une arme valide') return "ERROR"
+	else TriggerEvent("vorp:TipRight", 'Erreur : Ce n\'est pas un objet/une arme valide', 4000) return "ERROR"
 	end
 	return false
 end
