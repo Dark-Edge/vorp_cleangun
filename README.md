@@ -20,16 +20,18 @@ If you use the item, it will clean your weapon if compatible.
 
 To inspect your weapon you have to select it and when in the weapon wheel clic MMB like the original RDR2 function.
 
-[![vorp_cleangun showcase](http://img.youtube.com/vi/3pIg5yX4bLc/0.jpg)](http://www.youtube.com/watch?v=3pIg5yX4bLc "vorp_cleangun showcase") - Showcase
+[![Vorp_cleangun rework V1.2](http://img.youtube.com/vi/o5daMYcmPSE/0.jpg)](http://www.youtube.com/watch?v=o5daMYcmPSE "Vorp_cleangun rework V1.2") - Showcase
+
+# UPDATES :
+
+  - V1.2 : added the camera config after cleaning the weapon
 
 # KNOWN PROBLEMS : 
 
-  - When you finish to clean weapon the camera is not in cinematic mode anymore.
   - the script can't find the weapon hovered in the wheel so you have to select your weapon before
 
 # FUTURE PLANS :
 
-  - Fix the camera position when cleaning is done
   - adapt the script to select hovered weapon in the wheel
 
 Feel free to use this script as you want 'cause it’s opensource :wink:
