@@ -12,7 +12,7 @@ local key = 0xF09866F3
 RegisterNetEvent('cleaning:startcleaningshort')
 AddEventHandler('cleaning:startcleaningshort', function()
 	DestroyAllCams(true)
-	local cam = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", GetEntityCoords(PlayerPedId()), 0.0, 0.0, 0.0, 25.0, true, 2)
+	local cam = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", GetEntityCoords(PlayerPedId()), 0.0, 0.0, 0.0, 35.0, true, 2)
     local ped = PlayerPedId()
     local Cloth = CreateObject(GetHashKey('s_balledragcloth01x'), GetEntityCoords(PlayerPedId()), false, true, false, false, true)
     local PropId = GetHashKey("CLOTH")
@@ -56,7 +56,7 @@ end)
 
 RegisterCommand('cleanweap', function(source, args, raw)
 	DestroyAllCams(true)
-	local cam = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", GetEntityCoords(PlayerPedId()), 0.0, 0.0, 0.0, 25.0, true, 2)
+	local cam = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", GetEntityCoords(PlayerPedId()), 0.0, 0.0, 0.0, 35.0, true, 0)
 	local PropId = GetHashKey("CLOTH")
     local ped = PlayerPedId()
 	local Cloth = CreateObject(GetHashKey('s_balledragcloth01x'), GetEntityCoords(PlayerPedId()), false, true, false, false, true)
@@ -77,7 +77,7 @@ RegisterCommand('cleanweap', function(source, args, raw)
 	Wait(1500) -- waiting a little bit to avoid drop camera before cleaning is done
 	IsInCameraMode = 1	-- variables to test if player is in "inspect mode"
 	SetWeaponDegradation(object,0.0,0)
-    SetWeaponDirt(object,0.0,0)	
+    SetWeaponDirt(object,0.0,0)
 end)
 
 --[[   -- function to start camera taken from redemrp_shops i let it there to debug 
@@ -157,8 +157,6 @@ Citizen.CreateThread(function()
 			EndCam()
 			--print("Cameramode = ",IsInCameraMode) -- debug 
 		end	
-
-
 	end
 end)
 
