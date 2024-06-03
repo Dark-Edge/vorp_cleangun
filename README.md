@@ -24,6 +24,7 @@ To inspect your weapon you have to select it and when in the weapon wheel clic M
 
 # UPDATES :
 
+  - V1.3 : added possibility to add more items to clean weapons via config.lua file.
   - V1.2 : added the camera config after cleaning the weapon
 
 # KNOWN PROBLEMS : 
