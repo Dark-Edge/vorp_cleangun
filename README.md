@@ -22,6 +22,8 @@ To inspect your weapon you have to select it and when in the weapon wheel clic M
 
 [![Vorp_cleangun rework V1.2](http://img.youtube.com/vi/o5daMYcmPSE/0.jpg)](http://www.youtube.com/watch?v=o5daMYcmPSE "Vorp_cleangun rework V1.2") - Showcase
 
+Discord : https://discord.gg/P34hPqfn
+
 # UPDATES :
 
   - V1.3 : added possibility to add more items to clean weapons via config.lua file.
